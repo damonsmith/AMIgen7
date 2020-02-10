@@ -63,6 +63,9 @@ function PrepChroot() {
       BONUSREPO=${DEFAULTREPOS}
    fi
 
+   fdisk -l
+   df -h
+
    yum --disablerepo="*" --enablerepo="${BONUSREPO}" \
       --installroot="${CHROOT}" -y reinstall "${REPOPKGS[@]}"
    yum --disablerepo="*" --enablerepo="${BONUSREPO}" \
