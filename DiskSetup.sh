@@ -90,6 +90,8 @@ function CarveLVM {
    # Clear the MBR and partition table
    dd if=/dev/zero of="${CHROOTDEV}" bs=512 count=1000 > /dev/null 2>&1
 
+   parted "${CHROOTDEV}" print
+
    # Lay down the base partitions
    parted -s "${CHROOTDEV}" -- mklabel msdos mkpart primary "${FSTYPE}" 2048s ${BOOTDEVSZ} \
       mkpart primary "${FSTYPE}" ${BOOTDEVSZ} 100% set 2 lvm
@@ -115,7 +117,7 @@ function CarveLVM {
    # Let's only attempt this if we're a secondary EBS
    if [[ ${CHROOTDEV} == /dev/xvda ]] || [[ ${CHROOTDEV} == /dev/nvme0n1 ]]
    then
-      echo "Skipping explicit pvcreate opertion... " 
+      echo "Skipping explicit pvcreate opertion... "
    else
       pvcreate "${CHROOTDEV}${PARTPRE}2" || LogBrk 5 "PV creation failed. Aborting!"
    fi
