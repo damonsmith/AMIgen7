@@ -8,15 +8,16 @@ PROGNAME=$(basename "$0")
 CHROOT="${CHROOT:-/mnt/ec2-root}"
 PROXYSERVER="${PROXYSERVER:-UNDEF}"
 
-if [ -z "$PROXYSERVER" ]
-then
-    echo "no proxy set, skipping chroot proxy config"
-else
-    echo "export http_proxy=$PROXYSERVER" > $CHROOT/etc/profile.d/proxy.sh && chmod 755 $CHROOT/etc/profile.d/proxy.sh
-    echo "export https_proxy=$PROXYSERVER" >> $CHROOT/etc/profile.d/proxy.sh
-    echo "export no_proxy=localhost,127.0.0.1,169.254.169.254,.sock" >> "$CHROOT/etc/profile.d/proxy.sh"
-    echo "proxy=$PROXYSERVER" >> "$CHROOT/etc/yum.conf"
-fi
+# if [ -z "$PROXYSERVER" ]
+# then
+#     echo "no proxy set, skipping chroot proxy config"
+# else
+#     mkdir -p $CHROOT/etc/profile.d
+#     echo "export http_proxy=$PROXYSERVER" > $CHROOT/etc/profile.d/proxy.sh && chmod 755 $CHROOT/etc/profile.d/proxy.sh
+#     echo "export https_proxy=$PROXYSERVER" >> $CHROOT/etc/profile.d/proxy.sh
+#     echo "export no_proxy=localhost,127.0.0.1,169.254.169.254,.sock" >> "$CHROOT/etc/profile.d/proxy.sh"
+#     echo "proxy=$PROXYSERVER" >> "$CHROOT/etc/yum.conf"
+# fi
 
 if [[ $(rpm --quiet -q redhat-release-server)$? -eq 0 ]]
 then
