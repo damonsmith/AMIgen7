@@ -7,7 +7,9 @@
 PROGNAME=$(basename "$0")
 CHROOT="${CHROOT:-/mnt/ec2-root}"
 PROXYSERVER="${PROXYSERVER:-UNDEF}"
-if [ -z "$var" ];
+
+if [ -z "$PROXYSERVER" ]
+then
     echo "no proxy set, skipping chroot proxy config"
 else
     echo "export http_proxy=$PROXYSERVER" > "$CHROOT/etc/profile.d/proxy.sh" && chmod 755 /etc/profile.d/proxy.sh
