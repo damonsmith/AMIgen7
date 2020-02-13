@@ -78,7 +78,7 @@ function PrepChroot() {
       # echo "export https_proxy=$PROXYSERVER" >> $CHROOT/etc/profile.d/proxy.sh
       # echo "export no_proxy=localhost,127.0.0.1,169.254.169.254,.sock" >> "$CHROOT/etc/profile.d/proxy.sh"
       # echo "proxy=$PROXYSERVER" >> "$CHROOT/etc/yum.conf"
-      cat $CHROOT/etc/yum.conf
+      cat /etc/yum.conf
    fi
 
    yum --disablerepo="*" --enablerepo="${BONUSREPO}" \
