@@ -73,11 +73,8 @@ function PrepChroot() {
    then
       echo "no proxy set, skipping chroot proxy config"
    else
-      echo "export http_proxy=$PROXYSERVER" > $CHROOT/etc/profile.d/proxy.sh && chmod 755 $CHROOT/etc/profile.d/proxy.sh
-      echo "export https_proxy=$PROXYSERVER" >> $CHROOT/etc/profile.d/proxy.sh
-      echo "export no_proxy=localhost,127.0.0.1,169.254.169.254,.sock" >> "$CHROOT/etc/profile.d/proxy.sh"
+
       echo "proxy=$PROXYSERVER" >> "$CHROOT/etc/yum.conf"
-      source $CHROOT/etc/profile.d/proxy.sh
    fi
 
    yum --disablerepo="*" --enablerepo="${BONUSREPO}" \
