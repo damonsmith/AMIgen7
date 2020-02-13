@@ -71,14 +71,12 @@ function PrepChroot() {
 
    if [ -z "$PROXYSERVER" ]
    then
-      yum --installroot="${CHROOT}" update
       yum --disablerepo="*" --enablerepo="${BONUSREPO}" \
       --installroot="${CHROOT}" -y reinstall "${REPOPKGS[@]}"
       yum --disablerepo="*" --enablerepo="${BONUSREPO}" \
       --installroot="${CHROOT}" -y install yum-utils
    else
       echo $http_proxy $https_proxy
-      yum --setopt=proxy=http://$PROXYSERVER --installroot="${CHROOT}" update
       yum --setopt=proxy=http://$PROXYSERVER --disablerepo="*" --enablerepo="${BONUSREPO}" \
       --installroot="${CHROOT}" -y reinstall "${REPOPKGS[@]}"
       yum --setopt=proxy=http://$PROXYSERVER --disablerepo="*" --enablerepo="${BONUSREPO}" \
