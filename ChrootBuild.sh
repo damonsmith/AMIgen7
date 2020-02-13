@@ -6,7 +6,7 @@
 #####################################
 PROGNAME=$(basename "$0")
 CHROOT="${CHROOT:-/mnt/ec2-root}"
-PROXYSERVER="$1"
+PROXYSERVER="${PROXYSERVER:-UNDEF}"
 
 if [ -z "$PROXYSERVER" ]
 then
@@ -105,7 +105,7 @@ eval set -- "${OPTIONBUFR}"
 
 while true
 do
-   case "$2" in
+   case "$1" in
       -r|--repouri)
          case "$2" in
 	    "")
@@ -114,13 +114,13 @@ do
 	       exit 1
 	       ;;
 	    *)
-	       REPORPMS=($(echo "${3}" | sed 's/,/ /g'))
+	       REPORPMS=($(echo "${2}" | sed 's/,/ /g'))
 	       shift 2;
 	       ;;
 	 esac
 	 ;;
       -b|--bonusrepos)
-         case "$3" in
+         case "$2" in
 	    "")
 	       echo "Error: option required but not specified" > /dev/stderr
 	       shift 2;
@@ -133,14 +133,14 @@ do
 	 esac
 	 ;;
       -e|--extras)
-         case "$3" in
+         case "$2" in
 	    "")
 	       echo "Error: option required but not specified" > /dev/stderr
 	       shift 2;
 	       exit 1
 	       ;;
 	    *)
-	       EXTRARPMS=($(echo "${3}" | sed 's/,/ /g'))
+	       EXTRARPMS=($(echo "${2}" | sed 's/,/ /g'))
 	       shift 2;
 	       ;;
 	 esac
