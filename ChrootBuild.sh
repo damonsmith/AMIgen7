@@ -71,16 +71,16 @@ function PrepChroot() {
 
    if [ -z "$PROXYSERVER" ]
    then
-      echo "no proxy set, skipping chroot proxy config"
-   else
-
-      echo "proxy=$PROXYSERVER" >> "$CHROOT/etc/yum.conf"
-   fi
-
-   yum --disablerepo="*" --enablerepo="${BONUSREPO}" \
+      yum --disablerepo="*" --enablerepo="${BONUSREPO}" \
       --installroot="${CHROOT}" -y reinstall "${REPOPKGS[@]}"
-   yum --disablerepo="*" --enablerepo="${BONUSREPO}" \
+      yum --disablerepo="*" --enablerepo="${BONUSREPO}" \
       --installroot="${CHROOT}" -y install yum-utils
+   else
+      yum --setopt=proxy=http://$PROXYSERVER --disablerepo="*" --enablerepo="${BONUSREPO}" \
+      --installroot="${CHROOT}" -y reinstall "${REPOPKGS[@]}"
+      yum --setopt=proxy=http://$PROXYSERVER --disablerepo="*" --enablerepo="${BONUSREPO}" \
+      --installroot="${CHROOT}" -y install yum-utils
+   fi
 
    # if alt-repo defined, disable everything, then install alt-repos
    if [[ ! -z ${REPORPMS+xxx} ]]
