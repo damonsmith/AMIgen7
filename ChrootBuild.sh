@@ -6,7 +6,7 @@
 #####################################
 PROGNAME=$(basename "$0")
 CHROOT="${CHROOT:-/mnt/ec2-root}"
-PROXYSERVER="${PROXYSERVER:-UNDEF}"
+# PROXYSERVER="${PROXYSERVER:-UNDEF}"
 
 if [[ $(rpm --quiet -q redhat-release-server)$? -eq 0 ]]
 then
@@ -69,19 +69,19 @@ function PrepChroot() {
    fdisk -l
    df -h
 
-   if [ -z "$PROXYSERVER" ]
-   then
+#    if [ -z "$PROXYSERVER" ]
+#    then
       yum --disablerepo="*" --enablerepo="${BONUSREPO}" \
       --installroot="${CHROOT}" -y reinstall "${REPOPKGS[@]}"
       yum --disablerepo="*" --enablerepo="${BONUSREPO}" \
       --installroot="${CHROOT}" -y install yum-utils
-   else
-      echo $http_proxy $https_proxy
-      yum --setopt=proxy=http://$PROXYSERVER --disablerepo="*" --enablerepo="${BONUSREPO}" \
-      --installroot="${CHROOT}" -y reinstall "${REPOPKGS[@]}"
-      yum --setopt=proxy=http://$PROXYSERVER --disablerepo="*" --enablerepo="${BONUSREPO}" \
-      --installroot="${CHROOT}" -y install yum-utils
-   fi
+#    else
+#       echo $http_proxy $https_proxy
+#       yum --setopt=proxy=http://$PROXYSERVER --disablerepo="*" --enablerepo="${BONUSREPO}" \
+#       --installroot="${CHROOT}" -y reinstall "${REPOPKGS[@]}"
+#       yum --setopt=proxy=http://$PROXYSERVER --disablerepo="*" --enablerepo="${BONUSREPO}" \
+#       --installroot="${CHROOT}" -y install yum-utils
+#    fi
 
    # if alt-repo defined, disable everything, then install alt-repos
    if [[ ! -z ${REPORPMS+xxx} ]]
