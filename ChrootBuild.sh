@@ -71,6 +71,7 @@ function PrepChroot() {
 
 #    if [ -z "$PROXYSERVER" ]
 #    then
+      yum clean all
       yum --disablerepo="*" --enablerepo="${BONUSREPO}" \
       --installroot="${CHROOT}" -y reinstall "${REPOPKGS[@]}"
       yum --disablerepo="*" --enablerepo="${BONUSREPO}" \
